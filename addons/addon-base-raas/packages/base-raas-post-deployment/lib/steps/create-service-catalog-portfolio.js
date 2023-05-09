@@ -46,6 +46,12 @@ const productsToCreate = [
   `,
   },
   {
+    filename: 'sagemaker-notebook-instance-nyu',
+    displayName: 'NYU-SageMaker Notebook',
+    description: `An Amazon SageMaker Jupyter Notebook for NYU that comes with: \n* TensorFlow \n* Apache MXNet \n* Scikit-learn
+  `,
+  },
+  {
     filename: 'emr-cluster',
     displayName: 'EMR',
     description: `An Amazon EMR research workspace that comes with: \n* Hail 0.2 \n* Jupyter Lab \n* Spark 2.4.4 \n* Hadoop 2.8.5
