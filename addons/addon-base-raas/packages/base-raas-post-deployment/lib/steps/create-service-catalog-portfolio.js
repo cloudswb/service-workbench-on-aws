@@ -47,7 +47,7 @@ const productsToCreate = [
   },
   {
     filename: 'sagemaker-notebook-instance-nyu',
-    displayName: 'SageMaker Notebook',
+    displayName: 'NYU SageMaker Notebook',
     description: `An Amazon SageMaker Jupyter Notebook that comes with: \n* TensorFlow \n* Apache MXNet \n* Scikit-learn
   `,
   },
