@@ -42,8 +42,7 @@ update_jupyter_config() {
     import subprocess
     import os
     from notebook.services.sessions.sessionmanager import SessionManager as BaseSessionManager
-    # from notebook.services.kernels.kernelmanager import AsyncMappingKernelManager
-    from notebook.services.kernels.kernelmanager import MappingKernelManager
+    from notebook.services.kernels.kernelmanager import AsyncMappingKernelManager
 
     class SessionManager(BaseSessionManager):
         def list_sessions(self, *args, **kwargs):
