@@ -1,0 +1,95 @@
+#!/bin/bash
+
+VERSION=""
+for i in "$@"
+do
+case $i in
+    -v=*|--version=*)
+    VERSION="${i#*=}"
+    echo "set notebook version to ${VERSION}"
+    shift
+    ;;
+esac
+done
+
+source activate JupyterSystemEnv
+
+echo "installing Python 3 kernel"
+python3 -m ipykernel install --sys-prefix --name python3 --display-name "Python 3"
+
+echo "intalling python dependencies..."
+pip uninstall NeptuneGraphNotebook -y # legacy uninstall when we used to install from source in s3
+
+# pip install "panada==1.5.3"
+pip install "jupyter-console<=6.4.0"
+pip install "jupyter-client<=6.1.12"
+pip install "ipywidgets==7.7.2"
+pip install "jupyterlab_widgets==1.1.1"
+pip install "notebook==6.4.12"
+pip install "nbclient<=0.7.0"
+pip install "itables<=1.4.2"
+pip install awswrangler
+
+pip install "ipykernel==6.23.0"
+pip install "jupyter-console==6.6.3"
+# pip install "ipykernel==5.3.4"
+pip install "nest-asyncio==1.5.5"
+
+if [[ ${VERSION} == "" ]]; then
+  pip install --upgrade graph-notebook
+else
+   pip install --upgrade graph-notebook==${VERSION}
+fi
+
+echo "installing nbextensions..."
+python -m graph_notebook.nbextensions.install
+
+echo "installing static resources..."
+python -m graph_notebook.static_resources.install
+
+echo "enabling visualization..."
+if [[ ${VERSION//./} < 330 ]] && [[ ${VERSION} != "" ]]; then
+  jupyter nbextension install --py --sys-prefix graph_notebook.widgets
+fi
+jupyter nbextension enable  --py --sys-prefix graph_notebook.widgets
+
+# mkdir -p ~/SageMaker/Neptune
+# cd ~/SageMaker/Neptune || exit
+# python -m graph_notebook.notebooks.install
+# chmod -R a+rw ~/SageMaker/Neptune/*
+
+# source ~/.bashrc || exit
+# HOST=${GRAPH_NOTEBOOK_HOST}
+# PORT=${GRAPH_NOTEBOOK_PORT}
+# AUTH_MODE=${GRAPH_NOTEBOOK_AUTH_MODE}
+# SSL=${GRAPH_NOTEBOOK_SSL}
+# LOAD_FROM_S3_ARN=${NEPTUNE_LOAD_FROM_S3_ROLE_ARN}
+
+# if [[ ${SSL} -eq "" ]]; then
+#   SSL="True"
+# fi
+
+# echo "Creating config with
+# HOST:                       ${HOST}
+# PORT:                       ${PORT}
+# AUTH_MODE:                  ${AUTH_MODE}
+# SSL:                        ${SSL}
+# AWS_REGION:                 ${AWS_REGION}"
+
+# /home/ec2-user/anaconda3/envs/JupyterSystemEnv/bin/python -m graph_notebook.configuration.generate_config \
+#   --host "${HOST}" \
+#   --port "${PORT}" \
+#   --auth_mode "${AUTH_MODE}" \
+#   --ssl "${SSL}" \
+#   --load_from_s3_arn "${LOAD_FROM_S3_ARN}" \
+#   --aws_region "${AWS_REGION}"
+
+# echo "Adding graph_notebook.magics to ipython config..."
+# if [[ ${VERSION//./} > 341 ]] || [[ ${VERSION} == "" ]]; then
+#   /home/ec2-user/anaconda3/envs/JupyterSystemEnv/bin/python -m graph_notebook.ipython_profile.configure_ipython_profile
+# else
+#   echo "Skipping, unsupported on graph-notebook<=3.4.1"
+# fi
+
+conda /home/ec2-user/anaconda3/bin/deactivate
+echo "done."

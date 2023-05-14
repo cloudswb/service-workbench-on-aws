@@ -297,9 +297,9 @@ Resources:
               chmod 500 "/tmp/get_bootstrap.sh"
               /tmp/get_bootstrap.sh "${EnvironmentInstanceFiles}" '${S3Mounts}'
 
-              aws s3 cp "${EnvironmentInstanceFiles}/init-graph-notebook.sh" "/tmp"
-              chmod 500 "/tmp/init-graph-notebook.sh"
-              /tmp/init-graph-notebook.sh
+              aws s3 cp "${EnvironmentInstanceFiles}/init-jupyter-dash.sh" "/tmp"
+              chmod 500 "/tmp/init-jupyter-dash.sh"
+              source /tmp/init-jupyter-dash.sh
 
               # Stop Idle Script
               if [ "${AutoStopIdleTimeInMinutes}" != "0" ]; then
