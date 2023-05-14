@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/bin/bash
+sudo -u ec2-user -i <<'EOF'
 
 # source activate JupyterSystemEnv
 
@@ -11,3 +12,5 @@ python3 -m pip install "jupyter-console==6.6.3"
 echo "Finished installed ipykernel and jupyter-console"
 
 exit 0
+
+EOF
