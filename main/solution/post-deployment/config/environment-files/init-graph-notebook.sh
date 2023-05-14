@@ -13,3 +13,9 @@ sudo -u ec2-user -i <<'EOF'
     /tmp/graph_notebook/install.sh
     pip install ipykernel==6.23.0
 EOF
+
+
+#!/bin/bash
+sudo -u ec2-user -i <<'EOF'
+source ./start.sh
+EOF
