@@ -1,9 +1,11 @@
 #!/bin/bash
 sudo -u ec2-user -i <<'EOF'
 
-# source activate JupyterSystemEnv
+echo "activate JupyterSystemEnv"
+source activate JupyterSystemEnv
 
 echo "Installing ipykernel 6.16.2"
+python3 -m pip uninstall ipykernel
 python3 -m pip install "ipykernel==6.16.2"
 
 echo "Installing jupyter-console 6.6.3"
