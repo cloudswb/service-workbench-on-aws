@@ -147,7 +147,7 @@ OS_VERSION=`cat /etc/os-release | grep VERSION= | sed 's/VERSION="//' | sed 's/"
 case "$(env_type)" in
     "emr") # Update config and restart Jupyter
         yum install -y fuse-2.9.4   # As of 6/27/21 EMR has not been migrated to be air gapped
-        update_jupyter_config "/opt/hail-on-AWS-spot-instances/src/jupyter_notebook_config.py"
+        # update_jupyter_config "/opt/hail-on-AWS-spot-instances/src/jupyter_notebook_config.py"
         sudo -u hadoop PATH=$PATH:/usr/local/bin /opt/hail-on-AWS-spot-instances/src/jupyter_run.sh
         ;;
     "sagemaker") # Update config and restart Jupyter
@@ -167,7 +167,7 @@ case "$(env_type)" in
             sudo yum --disablerepo=* localinstall -y *.rpm
             echo "Finish installing fuse"
         fi
-        update_jupyter_config "/home/ec2-user/.jupyter/jupyter_notebook_config.py"
+        # update_jupyter_config "/home/ec2-user/.jupyter/jupyter_notebook_config.py"
         if [ $OS_VERSION = '2' ]
         then
             systemctl restart jupyter-server
